@@ -15,11 +15,34 @@ from urllib.parse import unquote
 
 from thumbor.loaders import LoaderResult
 
+import boto3
+import loaders.bucket_details as bucket_details
+import io
+
+s3_buckets = boto3.resource(
+        service_name="s3",
+        endpoint_url=bucket_details.ep_url,
+        aws_access_key_id=bucket_details.key_id,
+        aws_secret_access_key=bucket_details.access_key,
+        )
+
+my_bucket = s3_buckets.Bucket(bucket_details.bucket_name)
 
 async def load(context, path):
+    file_stream = io.BytesIO()
+
     file_path = join(
         context.config.FILE_LOADER_ROOT_PATH.rstrip("/"), path.lstrip("/")
     )
+
+    chosen_file = path.lstrip("/")
+    print("chosen_file:", chosen_file)
+    chosen_bucket_image = s3_buckets.Object(bucket_name=bucket_details.bucket_name, key=chosen_file)
+    chosen_image = chosen_bucket_image.download_fileobj(file_stream)
+
+    file_path = file_stream
+    print("file_stream.getvalue():", file_stream.getvalue())
+    #print("file_path: ", file_path)
     file_path = abspath(file_path)
     inside_root_path = file_path.startswith(
         abspath(context.config.FILE_LOADER_ROOT_PATH)
