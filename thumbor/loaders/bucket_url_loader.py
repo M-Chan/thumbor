@@ -19,6 +19,8 @@ import tornado.httpclient
 from thumbor.loaders import LoaderResult
 from thumbor.utils import logger
 
+from loaders.generate_object_url import generate_encoded_url
+
 try:
     import tornado.curl_httpclient  # pylint: disable=ungrouped-imports
 except (ImportError, ValueError):
@@ -48,8 +50,15 @@ def _normalize_url(url):
 
 
 def validate(context, url, normalize_url_func=_normalize_url):
+    print("url: ", url)
+    chosen_key = url
+    print("chosen_key: ", chosen_key)
+    url = generate_encoded_url(chosen_key)
+
     url = normalize_url_func(url)
+    print("url: ", url)
     res = urlparse(url)
+    print("res: ", res)
 
     if not res.hostname:
         return False
