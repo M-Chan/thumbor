@@ -51,9 +51,6 @@ def _normalize_url(url):
 
 def validate(context, url, normalize_url_func=_normalize_url):
     print("url: ", url)
-    chosen_key = url
-    print("chosen_key: ", chosen_key)
-    url = generate_encoded_url(chosen_key)
 
     url = normalize_url_func(url)
     print("url: ", url)
@@ -183,6 +180,9 @@ async def load(
 
     if user_agent is None and "User-Agent" not in headers:
         user_agent = context.config.HTTP_LOADER_DEFAULT_USER_AGENT
+
+    chosen_key = url
+    url = generate_encoded_url(chosen_key)
 
     url = normalize_url_func(url)
     req = tornado.httpclient.HTTPRequest(
