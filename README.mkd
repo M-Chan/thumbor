@@ -1,3 +1,16 @@
+## Setting up the server
+- Create a virtual environment: `python -m venv venv`
+- Activate your virtual environment: `source venv/bin/activate
+- Pip install Python dependencies: `pip install -r requirements.txt`
+- Create a Python file `bucket_details.py` with the following variables:
+	- bucket_name
+	- ep_url
+	- key_id
+	- access_key
+- Run the server: python ./thumbor/server.py
+- Open http://localhost:8888/unsafe/<object_name>
+
+
 <h4 align="center">Join <a href="https://github.com/thumbor/thumbor-bootcamp">thumbor-bootcamp</a> for a learning and contribution experience with ❤️ and 🤗 from the thumbor team</h4>
 
 <p align="center">
